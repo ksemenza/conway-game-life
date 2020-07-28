@@ -3,6 +3,7 @@ simplegui.Frame._hide_status = True
 simplegui.Frame._keep_timers = True
 
 
+
 WIDTH = 500
 HEIGHT = 500
 SCALE = 20.0
@@ -101,6 +102,55 @@ def reset():
     life_game.addCell(x - 1, y)
     life_game.addCell(x, y)
     life_game.addCell(x, y + 1)
+    
+
+# Define Bee Hive function
+def beeHive():
+    global life_game, scale
+    clear()
+    scale = SCALE
+    px = pX
+    py = pY
+    x = WIDTH // scale // 2
+    y = HEIGHT // scale // 2
+    life_game.addCell(x, y + 1)
+    life_game.addCell(x, y - 1)
+    life_game.addCell(x - 2, y)
+    life_game.addCell(x + 1, y)
+    life_game.addCell(x - 1, y -1)
+    life_game.addCell(x -1, y +1)
+# Define Blinker function
+
+def blinker():
+    global life_game, scale
+    clear()
+    scale = SCALE
+    px = pX
+    py = pY
+    x = WIDTH // scale // 2
+    y = HEIGHT // scale // 2
+    life_game.addCell(x, y + 1)
+    life_game.addCell(x, y - 1)
+    life_game.addCell(x , y)
+    
+    
+def beacon():
+    global life_game, scale
+    clear()
+    scale = SCALE
+    px = pX
+    py = pY
+    x = WIDTH // scale // 2
+    y = HEIGHT // scale // 2
+    life_game.addCell(x - 1, y)
+    life_game.addCell(x - 1, y + 1)
+    life_game.addCell(x - 2, y)
+    life_game.addCell(x - 2, y + 1)
+    life_game.addCell(x, y - 1)
+    life_game.addCell(x, y - 2)
+    life_game.addCell(x + 1 , y - 1)
+    life_game.addCell(x + 1 , y - 2)
+
 
 # Define event handler functions
 
@@ -122,6 +172,17 @@ def clear_handler():
 def reset_handler():
     timer.stop()
     reset()
+    
+def beeHive_handler():
+    timer.stop()
+    beeHive()
+    
+def blinker_handler():
+    timer.stop()
+    blinker()
+def beacon_handler():
+    timer.stop()
+    beacon()
 
 
 # Translate mouse position to cell and toggle it
@@ -152,7 +213,7 @@ def draw(canvas):
                              ], 1, "green", "green")
     # Update labels
     gen_label.set_text("Generation: "+str(life_game.getGeneration()))
-    cnt_label.set_text("Cell count: "+str(life_game.getCellCount()))
+    cnt_label.set_text("Living Cells: "+str(life_game.getCellCount()))
 
 # Create a frame
 frame = simplegui.create_frame("Guin Dev Present Conway's Game of Life", WIDTH, HEIGHT)
@@ -161,6 +222,9 @@ frame.set_draw_handler(draw)
 # Register event handlers
 gen_label = frame.add_label("")
 cnt_label = frame.add_label("")
+frame.add_button("BeeHive", beeHive_handler)
+frame.add_button("Blinker", blinker_handler)
+frame.add_button("Beacon", beacon_handler)
 frame.add_label("")
 frame.add_button("Start", start_handler)
 frame.add_button("Stop", stop_handler)
